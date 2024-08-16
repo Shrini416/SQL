@@ -1,0 +1,23 @@
+-- Drop the table if it already exists to avoid conflicts
+DROP TABLE IF EXISTS Employee;
+
+-- Create the Employee table
+CREATE TABLE Employee (
+    id INT PRIMARY KEY,
+    salary INT
+);
+
+-- Insert sample data into the Employee table
+INSERT INTO Employee (id, salary) VALUES
+(1, 100),
+(2, 200),
+(3, 300);
+
+-- Query to find the second highest salary
+WITH cte AS
+(SELECT *, DENSE_RANK() OVER(ORDER BY salary DESC)AS r FROM Employee)
+
+SELECT IFNULL((SELECT salary FROM cte 
+WHERE r=2 LIMIT 1 
+), null)AS 
+SecondHighestSalary;
