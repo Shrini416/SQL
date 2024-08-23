@@ -1,0 +1,33 @@
+-- Drop the Customers table if it exists
+DROP TABLE IF EXISTS Customers;
+
+-- Create the Customers table
+CREATE TABLE Customers(
+    id INT PRIMARY KEY,
+    name VARCHAR(25) NOT NULL
+);
+
+-- Create the Orders table
+CREATE TABLE Orders(
+    id INT PRIMARY KEY,
+    customerId INT,
+    FOREIGN KEY (customerId) REFERENCES Customers(id)
+);
+
+-- Insert data into the Customers table
+INSERT INTO Customers (id, name) VALUES 
+(1, 'Joe'), 
+(2, 'Henry'), 
+(3, 'Sam'), 
+(4, 'Max');
+
+-- Insert data into the Orders table
+INSERT INTO Orders (id, customerId) VALUES 
+(1, 3), 
+(2, 1);
+
+-- Select customers who have never placed an order
+SELECT c.name AS Customers
+FROM Customers c
+LEFT JOIN Orders o ON c.id = o.customerId
+WHERE o.id IS NULL;
