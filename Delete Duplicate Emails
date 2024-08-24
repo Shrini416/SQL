@@ -1,0 +1,23 @@
+DROP TABLE IF EXISTS Person;
+
+CREATE TABLE Person (
+    id INT PRIMARY KEY,
+    email VARCHAR(100) NOT NULL
+);
+
+INSERT INTO Person (id, email) VALUES
+(1, 'john@example.com'),
+(2, 'bob@example.com'),
+(3, 'john@example.com');
+
+SET SQL_SAFE_UPDATES = 0;
+
+DELETE p1.*
+FROM Person p1
+CROSS JOIN Person p2
+WHERE 
+p1.email = p2.email 
+AND p1.id > p2.id;
+
+SET SQL_SAFE_UPDATES = 1;
+select * from Person;
