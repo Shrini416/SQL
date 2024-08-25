@@ -1,0 +1,20 @@
+-- Step 1: Create the Weather table
+CREATE TABLE Weather (
+    id INT PRIMARY KEY,
+    recordDate DATE,
+    temperature INT
+);
+
+-- Step 2: Insert data into the Weather table
+INSERT INTO Weather (id, recordDate, temperature) VALUES
+(1, '2015-01-01', 10),
+(2, '2015-01-02', 25),
+(3, '2015-01-03', 20),
+(4, '2015-01-04', 30);
+
+-- Step 3: Perform the query
+SELECT w1.id
+FROM Weather w1
+LEFT JOIN Weather w2
+ON w1.recordDate - INTERVAL 1 DAY = w2.recordDate
+WHERE w1.temperature > w2.temperature;
