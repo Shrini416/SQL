@@ -1,0 +1,42 @@
+-- Creating the Candidate table
+CREATE TABLE Candidate (
+    id INT PRIMARY KEY,
+    Name VARCHAR(25)
+);
+
+-- Creating the Vote table
+CREATE TABLE Vote (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    CandidateId INT,
+    FOREIGN KEY (CandidateId) REFERENCES Candidate(id)
+);
+
+-- Inserting values into the Candidate table
+INSERT INTO Candidate (id, Name)
+VALUES
+(1, 'A'),
+(2, 'B'),
+(3, 'C'),
+(4, 'D'),
+(5, 'E');
+
+-- Inserting values into the Vote table
+INSERT INTO Vote (id, CandidateId)
+VALUES
+(1, 2),
+(2, 4),
+(3, 3),
+(4, 2),
+(5, 5);
+
+-- Query to find the candidate with the most votes
+WITH cte AS (
+    SELECT CandidateId, COUNT(id) AS vote_count
+    FROM Vote
+    GROUP BY CandidateId
+    ORDER BY vote_count DESC
+    LIMIT 1
+)
+SELECT Name 
+FROM Candidate 
+WHERE id = (SELECT CandidateId FROM cte);
