@@ -1,0 +1,28 @@
+CREATE TABLE survey_log (
+  uid INT,
+  action VARCHAR(25),
+  question_id INT,
+  answer_id INT,
+  q_num INT,
+  timestamp INT
+);
+
+INSERT INTO survey_log(uid, action, question_id, answer_id, q_num, timestamp)
+VALUES
+(5, 'show', 285, null, 1, 123),
+(5, 'answer', 285, 124124, 1, 124),
+(5, 'show', 369, null, 2, 124),
+(5, 'skip', 369, null, 2, 126);
+
+WITH cte AS (
+  SELECT question_id, 
+         SUM(CASE WHEN action = 'answer' THEN 1 ELSE 0 END) /
+         SUM(CASE WHEN action = 'show' THEN 1 ELSE 0 END) AS ratio
+  FROM survey_log
+  GROUP BY question_id
+)
+
+SELECT question_id AS survey_log, ratio 
+FROM cte
+ORDER BY ratio DESC
+LIMIT 1;
