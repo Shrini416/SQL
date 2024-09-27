@@ -1,0 +1,25 @@
+use imdb;
+DROP TABLE IF EXISTS Orders;
+CREATE TABLE Orders (
+    order_number INT,
+    customer_number INT,
+    PRIMARY KEY (order_number)
+);
+
+-- Insert data into the table
+INSERT INTO Orders (order_number, customer_number) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 3);
+
+--SOLUTION
+WITH cte AS (
+    SELECT customer_number, COUNT(customer_number) AS ordercount
+    FROM Orders 
+    GROUP BY customer_number
+)
+
+SELECT customer_number
+FROM cte
+WHERE ordercount = (SELECT MAX(ordercount) FROM cte);
