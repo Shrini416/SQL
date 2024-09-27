@@ -1,0 +1,26 @@
+USE imdb;
+
+-- Drop the Customer table if it already exists
+DROP TABLE IF EXISTS Customer;
+
+-- Create the Customer table
+CREATE TABLE Customer (
+    id INT PRIMARY KEY,
+    Name VARCHAR(255),
+    Refree_id INT
+);
+
+-- Insert values into the Customer table
+INSERT INTO Customer(id, Name, Refree_id)
+VALUES
+    (1, 'Will', Null),
+    (2, 'Jane', 2),
+    (3, 'Alex', Null),
+    (4, 'Bill', Null),
+    (5, 'Jack', 2),
+    (6, 'Mark', 1);
+
+-- Select customers where Refree_id is not 2 or is Null
+SELECT Name 
+FROM Customer 
+WHERE Refree_id <> 2 OR Refree_id IS Null;
