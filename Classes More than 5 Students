@@ -1,0 +1,27 @@
+CREATE TABLE Courses (
+    student VARCHAR(255),
+    class VARCHAR(255)
+);
+
+-- Insert data into the Courses table
+INSERT INTO Courses (student, class) VALUES
+('A', 'Math'),
+('B', 'English'),
+('C', 'Math'),
+('D', 'Biology'),
+('E', 'Math'),
+('F', 'Computer'),
+('G', 'Math'),
+('H', 'Math'),
+('I', 'Math');
+
+--Solution
+SELECT class
+FROM Courses 
+GROUP BY class
+HAVING COUNT(student)>=5 
+
+Output
+| class |
+| ----- |
+| Math  |
