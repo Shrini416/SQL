@@ -1,0 +1,15 @@
+CREATE TABLE Triangle (
+    x INT NOT NULL,
+    y INT NOT NULL,
+    z INT NOT NULL
+);
+
+-- Insert data into Triangle table
+INSERT INTO Triangle (x, y, z)
+VALUES
+(13, 15, 30),
+(10, 20, 15);
+
+SELECT *, CASE WHEN x+y>z AND y+z>x AND z+x>y THEN "Yes" 
+ELSE "No" END AS triangle
+FROM Triangle;
