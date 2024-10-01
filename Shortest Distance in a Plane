@@ -1,0 +1,22 @@
+USE sales;
+DROP TABLE if EXISTS Point2D ;
+-- Step 1: Create the Point2D table
+CREATE TABLE Point2D (
+    x INT,
+    y INT,
+    PRIMARY KEY (x, y)  -- Composite primary key
+);
+
+-- Step 2: Insert the data into the Point2D table
+INSERT INTO Point2D (x, y) VALUES
+(-1, -1),
+(0, 0),
+(-1, -2);
+
+WITH CTE AS (
+    SELECT *, ROW_NUMBER() OVER (ORDER BY x, y) AS rnk
+    FROM Point2D
+)
+SELECT ROUND(MIN(SQRT(POWER(c1.x - c2.x, 2) + POWER(c1.y - c2.y, 2))), 2) AS MinDistance
+FROM CTE c1
+INNER JOIN CTE c2 ON c1.rnk < c2.rnk;
