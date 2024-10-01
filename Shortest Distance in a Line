@@ -1,0 +1,14 @@
+USE sales;
+DROP TABLE if EXISTS Point2D ;
+CREATE TABLE Point2D (
+    x INT
+);
+INSERT INTO Point2D (x) VALUES
+(-1),
+(0),
+(2);
+
+SELECT MIN(ABS(a.x - b.x)) AS Shortest
+FROM Point2D a
+INNER JOIN Point2D b
+ON a.x < b.x;
