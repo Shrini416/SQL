@@ -1,0 +1,32 @@
+-- Step 1: Create the MyNumbers table
+CREATE TABLE MyNumbers (
+    num INT
+);
+
+-- Step 2: Insert values into MyNumbers table
+INSERT INTO MyNumbers (num)
+VALUES
+(8),
+(8),
+(7),
+(7),
+(3),
+(3),
+(3),
+(5);  -- Added comma before (5) to separate values correctly
+
+-- Step 3: Use a CTE to find unique numbers
+WITH CTE AS (
+    SELECT num
+    FROM MyNumbers
+    GROUP BY num
+    HAVING COUNT(num) = 1  -- Only keep numbers that appear once
+)
+
+-- Step 4: Select the maximum number from unique numbers
+SELECT 
+    CASE 
+        WHEN COUNT(*) > 0 THEN MAX(num)
+        ELSE NULL 
+    END AS num
+FROM CTE;
