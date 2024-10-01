@@ -1,0 +1,24 @@
+USE sales;
+-- Drop the table if it exists
+DROP TABLE IF EXISTS Follow;
+
+-- Create the Follow table
+CREATE TABLE Follow (
+    followee VARCHAR(50),
+    follower VARCHAR(50),
+    PRIMARY KEY (followee, follower)  -- Composite primary key to ensure uniqueness
+);
+
+-- Insert data into the Follow table
+INSERT INTO Follow (followee, follower) VALUES
+('Alice', 'Bob'),
+('Bob', 'Cena'),
+('Bob', 'Donald'),
+('Donald', 'Edward');
+
+SELECT A.followee as follower , A.followedby AS number FROM(
+(SELECT followee, COUNT(*) AS followedby from Follow GROUP BY followee) A
+INNER JOIN
+(SELECT follower, COUNT(*) AS follows FROM Follow GROUP BY follower) B
+on A.followee=B.follower)
+ORDER BY follower;
