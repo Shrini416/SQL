@@ -1,0 +1,38 @@
+USE Leet;
+-- Create the Employee table
+CREATE TABLE Employee (
+    employee_id INT PRIMARY KEY,
+    name VARCHAR(255),
+    experience_years INT NOT NULL
+);
+
+-- Create the Project table
+CREATE TABLE Project (
+    project_id INT,
+    employee_id INT,
+    PRIMARY KEY (project_id, employee_id),
+    FOREIGN KEY (employee_id) REFERENCES Employee(employee_id)
+);
+
+-- Insert data into the Employee table
+INSERT INTO Employee (employee_id, name, experience_years) VALUES
+(1, 'Khaled', 3),
+(2, 'Ali', 2),
+(3, 'John', 1),
+(4, 'Doe', 2);
+
+-- Insert data into the Project table
+INSERT INTO Project (project_id, employee_id) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(2, 1),
+(2, 4);
+
+WITH CTE AS
+(SELECT project_id,COUNT(employee_id)AS num_of_emp
+FROM Project
+GROUP BY project_id)
+SELECT project_id
+FROM CTE
+WHERE num_of_emp=(SELECT MAX(num_of_emp)FROM CTE);
