@@ -1,0 +1,25 @@
+CREATE TABLE Queue (
+    person_id INT PRIMARY KEY,
+    person_name VARCHAR(255),
+    weight INT,
+    turn INT
+);
+INSERT INTO Queue (person_id, person_name, weight, turn) VALUES
+(5, 'Alice', 250, 1),
+(4, 'Bob', 175, 5),
+(3, 'Alex', 350, 2),
+(6, 'John Cena', 400, 3),
+(1, 'Winston', 500, 6),
+(2, 'Marie', 200, 4);
+
+SELECT person_name
+FROM Queue
+WHERE turn = (
+    SELECT TOP 1 q1.turn
+    FROM Queue q1
+    LEFT JOIN Queue q2
+    ON q1.turn >= q2.turn
+    GROUP BY q1.turn
+    HAVING SUM(q2.weight) <= 1000
+    ORDER BY SUM(q2.weight) DESC
+);
