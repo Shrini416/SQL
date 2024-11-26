@@ -1,0 +1,37 @@
+CREATE TABLE Submissions (
+    sub_id INT,
+    parent_id INT NULL
+);
+-- Insert data into Submissions table
+INSERT INTO Submissions (sub_id, parent_id)
+VALUES
+    (1, NULL),
+    (2, NULL),
+    (1, NULL),
+    (12, NULL),
+    (3, 1),
+    (5, 2),
+    (3, 1),
+    (4, 1),
+    (9, 1),
+    (10, 2),
+    (6, 7);
+SELECT * FROM Submissions;
+WITH CTE AS (
+    SELECT DISTINCT sub_id
+    FROM Submissions
+    WHERE parent_id IS NULL
+),
+cte2 AS (
+    SELECT parent_id, COUNT(DISTINCT sub_id) AS num
+    FROM Submissions
+    WHERE parent_id IS NOT NULL
+    GROUP BY parent_id
+)
+SELECT 
+    CTE.sub_id AS post_id, 
+    ISNULL(cte2.num, 0) AS comment_count
+FROM CTE
+LEFT JOIN cte2
+ON CTE.sub_id = cte2.parent_id
+ORDER BY post_id;
